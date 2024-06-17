@@ -1,4 +1,4 @@
-<h3 align="center">🛒  Qutoes App Screenshot 🛒</h3>
+<h3 align="center"> Qutoes App Screenshot </h3>
 
 ###
 
@@ -21,5 +21,10 @@
 </div>
 
 <h1></h1>
+
+
+
+
+https://github.com/OmBharsakle/Qutoes-App/assets/149371245/42cf145a-c81a-4d90-8715-7beafa3776e4
 
 
