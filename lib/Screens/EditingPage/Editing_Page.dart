@@ -1,10 +1,12 @@
 import 'dart:ui';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:qutoes_app/Screens/HomePage/Home_Page.dart';
 
 import '../../Utils/global.dart';
 import '../ChoiceTheme/Choice_Theme.dart';
@@ -17,6 +19,10 @@ class EditPage extends StatefulWidget {
 }
 
 class _EditPageState extends State<EditPage> {
+  final AudioPlayer _audioPlayer = AudioPlayer();
+  int _currentSongIndex = -1;
+  bool _isPlaying = false;
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -43,42 +49,36 @@ class _EditPageState extends State<EditPage> {
                 child: CarouselSlider.builder(
                   itemCount: Themes.length,
                   itemBuilder: (BuildContext context, int itemIndex,
-                          int pageViewIndex) =>
-                      InkWell(
-                    onTap: () {
-                      setState(() {
-                        ChoiceThemeIndex = pageViewIndex;
-                      });
-                    },
-                    child: Container(
-                      width: 350,
-                      margin: EdgeInsets.only(top: 110, bottom: 50),
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          new BoxShadow(
-                            color: Colors.black,
-                            blurRadius: 20.0,
-                          ),
-                        ],
-                        borderRadius: BorderRadius.circular(15),
-                        image: DecorationImage(
-                            image: AssetImage(Themes[itemIndex]['link']),
-                            fit: BoxFit.cover),
+                      int pageViewIndex) =>
+                      Container(
+                        width: 350,
+                        margin: EdgeInsets.only(top: 110, bottom: 50),
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black,
+                              blurRadius: 20.0,
+                            ),
+                          ],
+                          borderRadius: BorderRadius.circular(15),
+                          image: DecorationImage(
+                              image: AssetImage(Themes[itemIndex]['link']),
+                              fit: BoxFit.cover),
+                        ),
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Theme',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: fontName,
+                              fontSize: 50),
+                        ),
                       ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Theme',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: fontName,
-                            fontSize: 50),
-                      ),
-                    ),
-                  ),
                   options: CarouselOptions(
                     onPageChanged: (index, reason) {
                       setState(() {
                         ChoiceThemeIndex = index;
+                        isRandom = true;
                       });
                     },
                     aspectRatio: 9 / 15,
@@ -101,37 +101,37 @@ class _EditPageState extends State<EditPage> {
                   children: [
                     ...List.generate(
                         fontList.length,
-                        (index) => InkWell(
-                              onTap: () {
-                                setState(() {
-                                  fontName = fontList[index]['font'];
-                                  selectfont = index;
-                                });
-                              },
-                              child: Container(
-                                margin: EdgeInsets.all(6),
-                                padding: EdgeInsets.only(
-                                    top: 8, right: 10, left: 10, bottom: 8),
-                                height: 40,
-                                decoration: BoxDecoration(
-                                    color: selectfont == index
-                                        ? Colors.white
-                                        : Colors.transparent,
-                                    borderRadius: BorderRadius.circular(10)),
-                                alignment: Alignment.center,
-                                child: Text(
-                                  fontList[index]['fName'],
-                                  style: TextStyle(
-                                    fontFamily: fontList[index]['font'],
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w600,
-                                    color: selectfont == index
-                                        ? Colors.black
-                                        : Colors.white,
-                                  ),
-                                ),
+                            (index) => InkWell(
+                          onTap: () {
+                            setState(() {
+                              fontName = fontList[index]['font'];
+                              selectfont = index;
+                            });
+                          },
+                          child: Container(
+                            margin: EdgeInsets.all(6),
+                            padding: EdgeInsets.only(
+                                top: 8, right: 10, left: 10, bottom: 8),
+                            height: 40,
+                            decoration: BoxDecoration(
+                                color: selectfont == index
+                                    ? Colors.white
+                                    : Colors.transparent,
+                                borderRadius: BorderRadius.circular(10)),
+                            alignment: Alignment.center,
+                            child: Text(
+                              fontList[index]['fName'],
+                              style: TextStyle(
+                                fontFamily: fontList[index]['font'],
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                                color: selectfont == index
+                                    ? Colors.black
+                                    : Colors.white,
                               ),
-                            ))
+                            ),
+                          ),
+                        ))
                   ],
                 ),
               ),
@@ -158,13 +158,26 @@ class _EditPageState extends State<EditPage> {
                       child: Row(
                         children: [
                           ...List.generate(
-                              10,
-                              (index) => Container(
-                                    margin: EdgeInsets.only(right: 15),
-                                    child: CircleAvatar(
-                                      radius: 35,
+                              Songs.length,
+                                  (index) => GestureDetector(
+                                onTap: () async {
+                                  await _togglePlayPause(index);
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.only(right: 15),
+                                  child: CircleAvatar(
+                                    radius: 35,
+                                    backgroundImage:
+                                    AssetImage(Themes[index]['link']),
+                                    child: Icon(
+                                      _currentSongIndex == index && _isPlaying
+                                          ? Icons.pause
+                                          : Icons.play_arrow,
+                                      color: Colors.white,
                                     ),
-                                  ))
+                                  ),
+                                ),
+                              ))
                         ],
                       ),
                     )
@@ -178,9 +191,9 @@ class _EditPageState extends State<EditPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                margin: EdgeInsets.only(left: 10, top: 40),
-                width: 45,
-                height: 45,
+                margin: EdgeInsets.only(left: 15, top: 50),
+                width: 40,
+                height: 40,
                 decoration: BoxDecoration(
                     color: Colors.black45, shape: BoxShape.circle),
                 child: IconButton(
@@ -189,14 +202,14 @@ class _EditPageState extends State<EditPage> {
                   },
                   icon: Icon(
                     CupertinoIcons.back,
-                    size: 30,
+                    size: 25,
                     color: Colors.white,
                   ),
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 40),
-                height: 45,
+                margin: EdgeInsets.only(top: 50),
+                height: 40,
                 child: Text(
                   'Font & Music',
                   style: TextStyle(
@@ -208,20 +221,20 @@ class _EditPageState extends State<EditPage> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(right: 10, top: 40),
-                width: 45,
-                height: 45,
+                margin: EdgeInsets.only(right: 15, top: 50),
+                width: 40,
+                height: 40,
                 decoration: BoxDecoration(
                     color: Colors.black45, shape: BoxShape.circle),
                 child: IconButton(
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => EditPage(),
+                      builder: (context) => HomeScreen(),
                     ));
                   },
                   icon: Icon(
-                    CupertinoIcons.pen,
-                    size: 30,
+                    Icons.category_outlined,
+                    size: 23,
                     color: Colors.white,
                   ),
                 ),
@@ -232,6 +245,26 @@ class _EditPageState extends State<EditPage> {
       ),
     );
   }
+
+  Future<void> _togglePlayPause(int index) async {
+    if (_currentSongIndex == index) {
+      if (_isPlaying) {
+        await _audioPlayer.pause();
+      } else {
+        await _audioPlayer.resume();
+      }
+    } else {
+      if (_currentSongIndex != -1) {
+        await _audioPlayer.stop();
+      }
+      await _audioPlayer.play(AssetSource(Songs[index]));
+    }
+    setState(() {
+      _currentSongIndex = index;
+      _isPlaying = !_isPlaying;
+    });
+  }
 }
 
 int selectfont = 2;
+

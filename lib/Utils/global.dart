@@ -1,5 +1,8 @@
 // Categories Image List
 
+
+import 'dart:math';
+
 Map<String, List<Map<String, String>>> CategoriesImageList = {
   "ToughTimes": [
     {"link": "assets/Images/img/Tough_Times/alone.jpg", "text": "Alone"},
@@ -478,9 +481,33 @@ List fontList = [
   },
 ];
 
+// Songs
+
+List<String> Songs = [
+  "01.mp3",
+  "02.mp3",
+  "03.mp3",
+  "04.mp3",
+  "05.mp3",
+  "06.mp3",
+  "07.mp3",
+  "08.mp3",
+  "09.mp3",
+  "10.mp3",
+  "11.mp3",
+];
+
+
 // Variable
+var intValue = Random().nextInt(10);
 
 String fontName = 'f1';
+String? select = CategoriesImageList['ToughTimes']?[intValue]['text'].toString();
 bool isDark = false;
-bool isAuthor = false;
+bool isAuthor = true;
 bool isCategory = false;
+bool isRandom=true;
+
+
+// Learn By YouTube
+

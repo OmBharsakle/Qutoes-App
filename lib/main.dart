@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'Screens/Categories/Categories_Page.dart';
+import 'Screens/SplashScreen/Splash_Screen.dart';
 
 void main()
 {
@@ -17,7 +17,7 @@ class _QutoesAppState extends State<QutoesApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: CategoriesPage(),
+      home: SplashScreen(),
     );
   }
 }

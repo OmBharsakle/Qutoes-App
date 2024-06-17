@@ -47,6 +47,10 @@ dependencies:
   flutter_sharing_intent: ^1.1.1
   navbar_router: ^0.7.4
   flutter_wallpaper_manager: ^0.0.4
+  fluttertoast: ^8.2.6
+  google_mobile_ads: ^5.1.0
+  audioplayers: ^6.0.0
+  audio_manager: ^0.8.2
 
 dev_dependencies:
   flutter_test:
@@ -86,6 +90,7 @@ flutter:
     - assets/Images/img/Love_And_Relationship/
     - assets/Images/img/Health_And_Fitness/
     - assets/Images/img/Entrepreneurship/
+    - assets/Images/img/Logos/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

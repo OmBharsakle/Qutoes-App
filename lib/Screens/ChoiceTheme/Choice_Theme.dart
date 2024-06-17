@@ -42,7 +42,7 @@ class _ChoiceThemeState extends State<ChoiceTheme> {
             child: Column(
               children: [
                 SizedBox(
-                  height: 75,
+                  height: 55,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -51,6 +51,7 @@ class _ChoiceThemeState extends State<ChoiceTheme> {
                       onTap: () {
                         setState(() {});
                         ChoiceThemeIndex = index;
+                        isRandom=true;
                       },
                       child: Container(
                         margin: EdgeInsets.all(6),
@@ -101,9 +102,9 @@ class _ChoiceThemeState extends State<ChoiceTheme> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                margin: EdgeInsets.only(left: 10, top: 40),
-                width: 45,
-                height: 45,
+                margin: EdgeInsets.only(left: 15, top: 50),
+                width: 40,
+                height: 40,
                 decoration: BoxDecoration(
                     color: Colors.black45, shape: BoxShape.circle),
                 child: IconButton(
@@ -112,14 +113,15 @@ class _ChoiceThemeState extends State<ChoiceTheme> {
                   },
                   icon: Icon(
                     CupertinoIcons.back,
-                    size: 30,
+                    size: 25,
                     color: Colors.white,
                   ),
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 40),
-                height: 45,
+                margin: EdgeInsets.only(top: 45),
+                height: 40,
+                alignment: Alignment.center,
                 child: Text(
                   'Choice Theme',
                   style: TextStyle(
@@ -131,9 +133,9 @@ class _ChoiceThemeState extends State<ChoiceTheme> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(right: 10, top: 40),
-                width: 45,
-                height: 45,
+                margin: EdgeInsets.only(right: 15, top: 50),
+                width: 40,
+                height: 40,
                 decoration: BoxDecoration(
                     color: Colors.black45, shape: BoxShape.circle),
                 child: IconButton(
@@ -142,9 +144,8 @@ class _ChoiceThemeState extends State<ChoiceTheme> {
                       builder: (context) => EditPage(),
                     ));
                   },
-                  icon: Icon(
-                    CupertinoIcons.pen,
-                    size: 30,
+                  icon: Icon(CupertinoIcons.lightbulb,
+                    size: 25,
                     color: Colors.white,
                   ),
                 ),
@@ -157,4 +158,4 @@ class _ChoiceThemeState extends State<ChoiceTheme> {
   }
 }
 
-int ChoiceThemeIndex = 56;
+int ChoiceThemeIndex = 18;
