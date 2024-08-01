@@ -535,7 +535,6 @@ class _CategoriesPageState extends State<CategoriesPage> {
         'https://api.unsplash.com/search/photos?per_page=30&query=nature&order_by=relevant&client_id=BEI2ELJXRcv2lBZO6D7C_wmaJtgSLqXD6k39aC79C1k';
     var uri = Uri.parse(url);
     var response = await http.get(uri);
-    print(response.statusCode);
     var unsplashData = json.decode(response.body);
     imageList = unsplashData['results'];
     setState(() {});
@@ -556,7 +555,7 @@ _saveLocalImage() async {
 
 _saveLocalImageHD() async {
   RenderRepaintBoundary boundary =
-      _globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+  _globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
   ui.Image image = await boundary.toImage(pixelRatio: 2.0);
   ByteData? byteData = await (image.toByteData(format: ui.ImageByteFormat.png));
   await ImageGallerySaver.saveImage(byteData!.buffer.asUint8List());
